@@ -1,11 +1,9 @@
-filebeat.yml.jinja2
+filebeat.inputs:
 
-- input_type: log
+- type: log
   paths:
    - /var/lib/docker/containers/{{ id }}/{{ id }}*.log
-  document_type: docker
-  json.message_key: log
 
-output.logstash:
-  hosts: ["localhost:5044"]
+output.elasticstash:
+  hosts: ["localhost:9200"]
 
