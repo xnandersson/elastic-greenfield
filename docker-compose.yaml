@@ -1,0 +1,36 @@
+version: '3'
+volumes:
+  esdata1:
+    driver: local
+services:
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.0.0
+    links:
+     - elasticsearch
+    ports:
+     - 5601:5601
+     
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.0
+    cap_add:
+     - IPC_LOCK
+    volumes:
+     - esdata1:/usr/share/elasticsearch/data
+    ports:
+     - 9200:9200
+    environment:
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      http.host: "0.0.0.0"
+      transport.host: "127.0.0.1"
+      discovery.type: "single-node"
+
+  slapd:
+    build:
+      context: https://github.com/xnandersson/docker-slapd.git
+    image: "xnandersson/slapd:latest"
+    ports:
+     - 389:389
+    environment:
+      DOMAIN: "openforce.org"
+      PASSWORD: "Secret007!"
+      ORGANIZATION: "Openforce AB"
