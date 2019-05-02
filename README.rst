@@ -1,3 +1,11 @@
+Dependencies
+------------
+
+.. code:: bash
+
+  $ sudo apt-get install python-jinja2 -yqq
+  
+  
 Install
 -------
 
